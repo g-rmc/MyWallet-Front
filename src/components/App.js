@@ -6,7 +6,8 @@ import styled from 'styled-components';
 import GlobalStyle from '../styles/globalStyles';
 import UserContext from '../contexts/UserContext';
 
-//import COMPONENTE from '/componentes';
+import Login from './Start/Login';
+import Register from './Start/Register';
 
 export default function App() {
 
@@ -26,7 +27,11 @@ export default function App() {
           <BrowserRouter>
             <Routes>
 
-              <Route path='/' element={<h1>Olar</h1>}/>
+              <Route path='/' element={<Login />}/>
+              <Route path='/cadastro' element={<Register/>}/>
+              <Route path='/historico' element={<></>}/>
+              <Route path='/adicionar/:tipoRigistro' element={<></>}/>
+              <Route path='/editar/:idRegistro' element={<></>}/>
 
             </Routes>
           </BrowserRouter>

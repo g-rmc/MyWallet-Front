@@ -1,0 +1,73 @@
+import styled from "styled-components";
+
+const Container = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    h1 {
+        color: white;
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 32px;
+        margin-bottom: 25px;
+    }
+
+    a {
+        color: white;
+        font-size: 15px;
+        font-weight: 700;
+        margin-top: 35px;
+        cursor: pointer;
+    }
+
+    a:hover {
+        filter: brightness(70%);
+    }
+
+    a:active {
+        transform: translateY(2px);
+    }
+`
+
+const StyledForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 30px;
+
+    input {
+        font-family: 'Raleway', sans-serif;
+        height: 60px;
+        font-size: 20px;
+        font-weight: 400;
+        padding-left: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    button {
+        cursor: pointer;
+        background-color: #a328d6;
+        color: white;
+        height: 60px;
+        font-size: 20px;
+        font-weight: 700;
+        border-radius: 5px;
+        border: none;
+    }
+
+    button:hover {
+        filter: brightness(70%);
+    }
+
+    button:active {
+        transform: translateY(2px);
+    }
+`
+
+export {
+    Container,
+    StyledForm,
+}
