@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -7,26 +8,19 @@ const Container = styled.div`
     align-items: center;
     
     h1 {
+        cursor: pointer;
         color: white;
         font-family: 'Saira Stencil One', sans-serif;
         font-size: 32px;
         margin-bottom: 25px;
-    }
 
-    a {
-        color: white;
-        font-size: 15px;
-        font-weight: 700;
-        margin-top: 35px;
-        cursor: pointer;
-    }
-
-    a:hover {
+        &:hover {
         filter: brightness(70%);
-    }
+        }
 
-    a:active {
+        &:active {
         transform: translateY(2px);
+        }
     }
 `
 
@@ -67,7 +61,24 @@ const StyledForm = styled.form`
     }
 `
 
+const StyledLink = styled(Link)`
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 35px;
+    cursor: pointer;
+
+    &:hover {
+        filter: brightness(70%);
+    }
+
+    &:active {
+        transform: translateY(2px);
+    }
+`
+
 export {
     Container,
     StyledForm,
+    StyledLink,
 }

@@ -4,13 +4,20 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 
 //import {  } from "../../services/mywallet";
-import { Container, StyledForm } from "./style";
+import { Container, StyledForm, StyledLink } from "./style";
 
 export default function Register(){
 
+    //
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+
     return (
         <Container>
-            <h1>MyWallet</h1>
+
+            <h1 onClick={() => navigate('/')}>MyWallet</h1>
+
             <StyledForm>
                 <input
                     type='name'
@@ -34,7 +41,11 @@ export default function Register(){
                 />
                 <button>Cadastrar</button>
             </StyledForm>
-            <a>Primeira vez? Cadastre-se!</a>
+
+            <StyledLink to={loading === false? '/' : ''}>
+                Já tem uma conta? Entre agora!
+            </StyledLink>
+
         </Container>
     )
 }
