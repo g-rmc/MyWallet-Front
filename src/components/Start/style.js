@@ -1,5 +1,7 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { FallingLines } from "react-loader-spinner";
 
 const Container = styled.div`
     width: 100%;
@@ -50,6 +52,9 @@ const StyledForm = styled.form`
         font-weight: 700;
         border-radius: 5px;
         border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     button:hover {
@@ -77,8 +82,18 @@ const StyledLink = styled(Link)`
     }
 `
 
+function Loading () {
+    return (
+        <FallingLines
+            width="80"
+            color="white"
+        />
+    )
+}
+
 export {
     Container,
     StyledForm,
     StyledLink,
+    Loading,
 }

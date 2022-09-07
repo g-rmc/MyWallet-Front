@@ -3,8 +3,8 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 
-//import {  } from "../../services/mywallet";
-import { Container, StyledForm, StyledLink } from "./style";
+import { postAccess } from "../../services/mywallet";
+import { Container, StyledForm, StyledLink, Loading } from "./style";
 
 export default function Login(){
 
@@ -20,23 +20,57 @@ export default function Login(){
         }
     }, []);
 
+    async function handleLogin(e) {
+
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            //const res = await postAccess(login);
+            //setUser(res.data);
+            //localStorage.setItem('MyWalletUser', JSON.stringify(res.data));
+            setTimeout(() => {
+                setLoading(false);
+                navigate('/historico');
+            }, 2000);
+        } catch (error) {
+            /*
+            if (error.res.status === 401){
+                alert ('Usuário não cadastrado!')
+            } else {
+                alert (`Vish... Erro ${error.res.status}!`)
+            }
+            */
+            console.log(error);
+            setLoading(false);
+        }
+    }
+
     return (
         <Container>
-
+            
             <h1>MyWallet</h1>
 
-            <StyledForm>
+            <StyledForm onSubmit={handleLogin}>
                 <input
                     type='email'
+                    value={login.email}
+                    onChange={e => setLogin({...Login, email:e.target.value})}
                     placeholder='E-mail'
                     required
+                    disabled={loading}
                 />
                 <input
                     type='password'
+                    value={login.password}
+                    onChange={e => setLogin({...Login, password:e.target.value})}
                     placeholder='Senha'
                     required
+                    disabled={loading}
                 />
-                <button>Entrar</button>
+                <button type='submit' disabled={loading}>
+                    {loading === false ? 'Entrar' : <Loading/>}
+                </button>
             </StyledForm>
 
             <StyledLink to={loading === false? '/cadastro' : ''}>

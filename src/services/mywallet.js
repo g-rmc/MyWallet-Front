@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const baseURL = '';
+const baseURL = 'localhost:5000';
 
-function nameFunction(input){
-    const promise = axios.get();
+function postAccess (login){
+    const promise = axios.post(`${baseURL}/login`);
     return promise;
 }
 
-export { nameFunction }
+export { postAccess }
