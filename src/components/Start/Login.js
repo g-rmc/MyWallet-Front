@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 
-import { postAccess } from "../../services/mywallet";
+import { postLogin } from "../../services/mywallet";
 import { Container, StyledForm, StyledLink, Loading } from "./style";
 
 export default function Login(){
@@ -26,22 +26,16 @@ export default function Login(){
         setLoading(true);
 
         try {
-            //const res = await postAccess(login);
+            const res = await postLogin(login);
             //setUser(res.data);
             //localStorage.setItem('MyWalletUser', JSON.stringify(res.data));
-            setTimeout(() => {
-                setLoading(false);
-                navigate('/historico');
-            }, 2000);
+            navigate('/historico');
         } catch (error) {
-            /*
-            if (error.res.status === 401){
+            if (error.response.status === 401){
                 alert ('Usuário não cadastrado!')
             } else {
-                alert (`Vish... Erro ${error.res.status}!`)
+                alert (`Vish... Erro ${error.response.status}!`)
             }
-            */
-            console.log(error);
             setLoading(false);
         }
     }

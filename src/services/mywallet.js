@@ -1,10 +1,15 @@
 import axios from 'axios';
 
-const baseURL = 'localhost:5000';
+const baseURL = 'http://localhost:5000';
 
-function postAccess (login){
+function postLogin (login){
     const promise = axios.post(`${baseURL}/login`);
     return promise;
 }
 
-export { postAccess }
+function postRegister (register){
+    const promise = axios.post(`${baseURL}/register`);
+    return promise;
+}
+
+export { postLogin, postRegister }
