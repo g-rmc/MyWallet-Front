@@ -8,6 +8,7 @@ import UserContext from '../contexts/UserContext';
 
 import Login from './Start/Login';
 import Register from './Start/Register';
+import History from './History';
 
 export default function App() {
 
@@ -29,7 +30,7 @@ export default function App() {
 
               <Route path='/' element={<Login />}/>
               <Route path='/cadastro' element={<Register/>}/>
-              <Route path='/historico' element={<></>}/>
+              <Route path='/historico' element={<History/>}/>
               <Route path='/adicionar/:tipoRigistro' element={<></>}/>
               <Route path='/editar/:idRegistro' element={<></>}/>
 

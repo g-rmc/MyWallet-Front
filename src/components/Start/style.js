@@ -55,14 +55,14 @@ const StyledForm = styled.form`
         display: flex;
         align-items: center;
         justify-content: center;
-    }
 
-    button:hover {
-        filter: brightness(70%);
-    }
+        &:hover {
+            filter: brightness(70%);
+        }
 
-    button:active {
-        transform: translateY(2px);
+        &:active {
+            transform: translateY(2px);
+        }
     }
 `
 
