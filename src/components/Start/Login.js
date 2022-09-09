@@ -28,7 +28,7 @@ export default function Login(){
         try {
             const res = await postLogin(login);
             setUser(res.data);
-            //localStorage.setItem('MyWalletUser', JSON.stringify(res.data));
+            localStorage.setItem('MyWalletUser', JSON.stringify(res.data));
             navigate('/historico');
         } catch (error) {
             if (error.response.status === 401){

@@ -8,7 +8,7 @@ import { Container, Head, Body, Footer } from "./style";
 
 export default function History(){
 
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     let name;
 
@@ -27,11 +27,19 @@ export default function History(){
         name = "@"
     }
 
+    function confirmLogout () {
+        if (window.confirm('Você realmente deseja fazer logout')){
+            localStorage.removeItem('MyWalletUser');
+            setUser('');
+            navigate('/');
+        }
+    }
+
     return(
         <Container>
             <Head>
                 <h1>Olá, {name}</h1>
-                <div onClick={() => navigate('')}><AiOutlineLogout/></div>
+                <div onClick={confirmLogout}><AiOutlineLogout/></div>
             </Head>
 
             <Body>
