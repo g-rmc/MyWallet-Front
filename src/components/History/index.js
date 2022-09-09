@@ -10,14 +10,28 @@ export default function History(){
 
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
+    let name;
 
-    const name = 'Fulano' //user.name.split(' ')[0];
+    useEffect(() => {
+        if (user === ''){
+            navigate('/');
+            if (localStorage.getItem('MyWalletUser') === null) {
+                alert ('Por favor, faça o login novamente')
+            }
+        }
+    })
+
+    if (user.name) {
+        name = user.name.split(' ')[0];
+    } else {
+        name = "@"
+    }
 
     return(
         <Container>
             <Head>
                 <h1>Olá, {name}</h1>
-                <div><AiOutlineLogout/></div>
+                <div onClick={() => navigate('')}><AiOutlineLogout/></div>
             </Head>
 
             <Body>

@@ -27,14 +27,14 @@ export default function Login(){
 
         try {
             const res = await postLogin(login);
-            //setUser(res.data);
+            setUser(res.data);
             //localStorage.setItem('MyWalletUser', JSON.stringify(res.data));
             navigate('/historico');
         } catch (error) {
             if (error.response.status === 401){
-                alert ('Usuário não cadastrado!')
+                alert ('Usuário ou senha inválidos!')
             } else {
-                alert (`Vish... Erro ${error.response.status}!`)
+                alert (`Vish... Erro ${error.response.status}: ${error.response.data}!`)
             }
             setLoading(false);
         }
@@ -49,7 +49,7 @@ export default function Login(){
                 <input
                     type='email'
                     value={login.email}
-                    onChange={e => setLogin({...Login, email:e.target.value})}
+                    onChange={e => setLogin({...login, email:e.target.value})}
                     placeholder='E-mail'
                     required
                     disabled={loading}
@@ -57,7 +57,7 @@ export default function Login(){
                 <input
                     type='password'
                     value={login.password}
-                    onChange={e => setLogin({...Login, password:e.target.value})}
+                    onChange={e => setLogin({...login, password:e.target.value})}
                     placeholder='Senha'
                     required
                     disabled={loading}

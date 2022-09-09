@@ -14,7 +14,7 @@ export default function App() {
 
   const [user, setUser] = useState('');
 
-  //const config = {headers: {Authorization: `Bearer ${user.tojen}`}};
+  const config = {headers: {Authorization: `Bearer ${user.token}`}};
 
   return (
     <>
