@@ -31,14 +31,14 @@ export default function Register(){
         setLoading(true);
 
         try {
-            const res = await postRegister(register);
+            await postRegister(register);
             alert('Usuário cadastrado com sucesso!');
             navigate('/');
         } catch (error) {
             if (error.response.status === 409){
                 alert ('Email já cadastrado!')
             } else {
-                alert (`Vish... Erro ${error.response.status}!`)
+                alert (`Vish... Erro ${error.response.status}: ${error.response.data}!`)
             }
             setLoading(false);
         }
