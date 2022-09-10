@@ -32,7 +32,8 @@ export default function Login(){
             navigate('/historico');
         } catch (error) {
             if (error.response.status === 401){
-                alert ('Usuário ou senha inválidos!')
+                alert ('Usuário ou senha inválidos!');
+                setLogin({email:'', password:''});
             } else {
                 alert (`Vish... Erro ${error.response.status}: ${error.response.data}!`)
             }
