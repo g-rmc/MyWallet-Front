@@ -4,13 +4,16 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 
 import { AiOutlineLogout, AiOutlinePlusCircle, AiOutlineMinusCircle} from 'react-icons/ai';
-import { Container, Head, Body, Footer } from "./style";
+import { Container, Head, Body, StyledRegister, StyledText, StyledList, StyledTotal, Footer } from "./style";
+import { getRegister } from '../../services/mywallet';
 
 export default function History(){
 
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser, config } = useContext(UserContext);
+    const [ registerHistory, setRegisterHistory ] = useState([]);
+    const [ totalRegister, setTotalRegister ] = useState(0);
     const navigate = useNavigate();
-    let name;
+    let userName;
 
     useEffect(() => {
         if (user === ''){
@@ -19,12 +22,26 @@ export default function History(){
                 alert ('Por favor, faça o login novamente')
             }
         }
-    })
+    },[])
+
+    useEffect(() => {
+        async function getHistory(){
+            try {
+                const register = await getRegister(config);
+                setRegisterHistory(register.data);
+                calculateTotal(register.data);
+                console.log(register.data);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getHistory();
+    },[])
 
     if (user.name) {
-        name = user.name.split(' ')[0];
+        userName = user.name.split(' ')[0];
     } else {
-        name = "@"
+        userName = "@"
     }
 
     function confirmLogout () {
@@ -35,23 +52,65 @@ export default function History(){
         }
     }
 
+    function calculateTotal (arr) {
+        let sum = 0;
+        for (let i = 0; i < arr.length; i++){
+            if(isNaN(Number(arr[i].value))){
+                continue;
+            }
+            if (arr[i].type === 'positive'){
+                sum += Number(arr[i].value)
+            } else {
+                sum -= Number(arr[i].value)
+            }
+        }
+        setTotalRegister(Number(sum).toFixed(2));
+    }
+
+    function Register({register}) {
+        return (
+            <StyledRegister>
+                <StyledText type={'date'}>{register.date}</StyledText>
+                <StyledText type={'name'}>{register.name}</StyledText>
+                <StyledText type={register.type}>{register.value}</StyledText>
+            </StyledRegister>
+        )
+    }
+
     return(
         <Container>
             <Head>
-                <h1>Olá, {name}</h1>
+                <h1>Olá, {userName}</h1>
                 <div onClick={confirmLogout}><AiOutlineLogout/></div>
             </Head>
 
             <Body>
-                Histórico
+                {registerHistory.length === 0 ? 
+                    <h6>Não há registros de entrada ou saída</h6> : 
+                    <div>
+                        <StyledList>
+                            {registerHistory.map((register, index) => <Register key={index} register={register}/>)}
+                        </StyledList>
+                        <StyledTotal>
+                            <h1>SALDO</h1>
+                            {totalRegister >= 0 ? 
+                                <h2>{totalRegister}</h2> :
+                                <h3>{Math.abs(totalRegister)}</h3>
+                            }
+                            
+                        </StyledTotal>
+                        
+                    </div>
+
+                }
             </Body>
 
             <Footer>
-                <button>
+                <button onClick={() => navigate('/adicionar/entrada')}>
                     <div><AiOutlinePlusCircle/></div>
                     Nova<br/>entrada
                 </button>
-                <button>
+                <button onClick={() => navigate('/adicionar/saida')}>
                     <div><AiOutlineMinusCircle/></div>
                     Nova<br/>saída
                 </button>

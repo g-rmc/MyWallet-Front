@@ -7,9 +7,14 @@ function postLogin (login){
     return promise;
 }
 
-function postRegister (register){
-    const promise = axios.post(`${baseURL}/auth/sign-up`, register);
+function postNewUser (newUser){
+    const promise = axios.post(`${baseURL}/auth/sign-up`, newUser);
     return promise;
 }
 
-export { postLogin, postRegister }
+function getRegister (config){
+    const promise = axios.get(`${baseURL}/register`, config);
+    return promise;
+}
+
+export { postLogin, postNewUser, getRegister }

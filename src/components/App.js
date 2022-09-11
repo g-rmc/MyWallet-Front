@@ -6,9 +6,10 @@ import styled from 'styled-components';
 import GlobalStyle from '../styles/globalStyles';
 import UserContext from '../contexts/UserContext';
 
-import Login from './Start/Login';
-import Register from './Start/Register';
+import SignIn from './Start/SignIn';
+import SignUp from './Start/SignUp';
 import History from './History';
+import Register from './Register';
 
 export default function App() {
 
@@ -21,18 +22,19 @@ export default function App() {
       <GlobalStyle />
 
       <UserContext.Provider value={{
-        user, setUser
+        user, setUser,
+        config
       }}>
 
         <Container>
           <BrowserRouter>
             <Routes>
 
-              <Route path='/' element={<Login />}/>
-              <Route path='/cadastro' element={<Register/>}/>
+              <Route path='/' element={<SignIn/>}/>
+              <Route path='/cadastro' element={<SignUp/>}/>
               <Route path='/historico' element={<History/>}/>
-              <Route path='/adicionar/:tipoRigistro' element={<></>}/>
-              <Route path='/editar/:idRegistro' element={<></>}/>
+              <Route path='/adicionar/:tipoRigistro' element={<Register/>}/>
+              <Route path='/editar/:idRegistro' element={<Register/>}/>
 
             </Routes>
           </BrowserRouter>

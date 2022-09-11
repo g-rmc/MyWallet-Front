@@ -3,35 +3,35 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 
-import { postRegister } from "../../services/mywallet";
+import { postNewUser } from "../../services/mywallet";
 import { Container, StyledForm, StyledLink, Loading } from "./style";
 
-export default function Register(){
+export default function SignUp(){
 
     const [loading, setLoading] = useState(false);
-    const [register, setRegister] = useState({name:'', email:'', password:'', passwordConfirmation:''});
+    const [newUser, setNewUser] = useState({name:'', email:'', password:'', passwordConfirmation:''});
     const navigate = useNavigate();
 
-    async function handleRegister(e) {
+    async function handleSignUp(e) {
 
         e.preventDefault();
 
-        if(register.password.length < 6){
+        if(newUser.password.length < 6){
             alert('Por favor insira uma senha com 6 caracteres ou mais');
-            setRegister({...register, password:'', passwordConfirmation:''});
+            setNewUser({...newUser, password:'', passwordConfirmation:''});
             return;
         }
 
-        if(register.password !== register.passwordConfirmation){
+        if(newUser.password !== newUser.passwordConfirmation){
             alert('Por favor verifique a confirmação da senha');
-            setRegister({...register, passwordConfirmation:''});
+            setNewUser({...newUser, passwordConfirmation:''});
             return;
         }
 
         setLoading(true);
 
         try {
-            await postRegister(register);
+            await postNewUser(newUser);
             alert('Usuário cadastrado com sucesso!');
             navigate('/');
         } catch (error) {
@@ -49,35 +49,35 @@ export default function Register(){
 
             <h1 onClick={() => navigate('/')}>MyWallet</h1>
 
-            <StyledForm onSubmit={handleRegister}>
+            <StyledForm onSubmit={handleSignUp}>
                 <input
                     type='name'
-                    value={register.name}
-                    onChange={e => setRegister({...register, name:e.target.value})}
+                    value={newUser.name}
+                    onChange={e => setNewUser({...newUser, name:e.target.value})}
                     placeholder='Nome'
                     required
                     disabled={loading}
                 />
                 <input
                     type='email'
-                    value={register.email}
-                    onChange={e => setRegister({...register, email:e.target.value})}
+                    value={newUser.email}
+                    onChange={e => setNewUser({...newUser, email:e.target.value})}
                     placeholder='E-mail'
                     required
                     disabled={loading}
                 />
                 <input
                     type='password'
-                    value={register.password}
-                    onChange={e => setRegister({...register, password:e.target.value})}
+                    value={newUser.password}
+                    onChange={e => setNewUser({...newUser, password:e.target.value})}
                     placeholder='Senha'
                     required
                     disabled={loading}
                 />
                 <input
                     type='password'
-                    value={register.passwordConfirmation}
-                    onChange={e => setRegister({...register, passwordConfirmation:e.target.value})}
+                    value={newUser.passwordConfirmation}
+                    onChange={e => setNewUser({...newUser, passwordConfirmation:e.target.value})}
                     placeholder='Confirme a senha'
                     required
                     disabled={loading}

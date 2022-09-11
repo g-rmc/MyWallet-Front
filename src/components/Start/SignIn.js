@@ -6,7 +6,7 @@ import UserContext from "../../contexts/UserContext";
 import { postLogin } from "../../services/mywallet";
 import { Container, StyledForm, StyledLink, Loading } from "./style";
 
-export default function Login(){
+export default function SignIn(){
 
     const [login, setLogin] = useState({email:'', password:''});
     const [loading, setLoading] = useState(false);
