@@ -1,6 +1,8 @@
 import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import dayjs from 'dayjs';
+
 import UserContext from "../../contexts/UserContext";
 
 import { AiOutlineLogout, AiOutlinePlusCircle, AiOutlineMinusCircle} from 'react-icons/ai';
@@ -30,7 +32,6 @@ export default function History(){
                 const register = await getRegister(config);
                 setRegisterHistory(register.data);
                 calculateTotal(register.data);
-                console.log(register.data);
             } catch (error) {
                 console.log(error)
             }
@@ -70,7 +71,7 @@ export default function History(){
     function Register({register}) {
         return (
             <StyledRegister>
-                <StyledText type={'date'}>{register.date}</StyledText>
+                <StyledText type={'date'}>{dayjs(register.date).format('DD/MM')}</StyledText>
                 <StyledText type={'name'}>{register.name}</StyledText>
                 <StyledText type={register.type}>{register.value}</StyledText>
             </StyledRegister>

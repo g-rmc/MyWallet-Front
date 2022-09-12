@@ -33,8 +33,8 @@ export default function App() {
               <Route path='/' element={<SignIn/>}/>
               <Route path='/cadastro' element={<SignUp/>}/>
               <Route path='/historico' element={<History/>}/>
-              <Route path='/adicionar/:tipoRigistro' element={<Register/>}/>
-              <Route path='/editar/:idRegistro' element={<Register/>}/>
+              <Route path='/adicionar/:registerType' element={<Register/>}/>
+              <Route path='/editar/:registerId' element={<Register/>}/>
 
             </Routes>
           </BrowserRouter>

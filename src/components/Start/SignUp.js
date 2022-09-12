@@ -1,7 +1,6 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../../contexts/UserContext";
 
 import { postNewUser } from "../../services/mywallet";
 import { Container, StyledForm, StyledLink, Loading } from "./style";
