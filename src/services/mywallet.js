@@ -17,4 +17,9 @@ function getRegister (config){
     return promise;
 }
 
-export { postLogin, postNewUser, getRegister }
+function postNewRegister(newRegister, config){
+    const promise = axios.post(`${baseURL}/register`, newRegister, config);
+    return promise;
+}
+
+export { postLogin, postNewUser, getRegister, postNewRegister }

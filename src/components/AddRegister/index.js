@@ -1,18 +1,20 @@
 import React from "react";
-import { useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import IntlCurrencyInput from "react-intl-currency-input";
 
 import UserContext from "../../contexts/UserContext";
-import { Container, Head, StyledForm, StyledLink, Loading } from "../Register/style";
+import { postNewRegister } from "../../services/mywallet";
+import { Container, Head, StyledForm, StyledLink, Loading } from "./style";
 
-export default function Register(){
+export default function AddRegister(){
 
-    const { user } = useContext(UserContext);
+    const { user, config } = useContext(UserContext);
     const { pathname } = useLocation();
     const [ registerOperation, registerType] = handlePathname(pathname);
     const [ newRegister, setNewRegister ] = useState({userId: '', type:'', name:'', value:0});
     const [ loading, setLoading ] = useState(false);
+    const navigate = useNavigate();
     
     const currencyConfig = {
         locale: "pt-BR",
@@ -26,7 +28,22 @@ export default function Register(){
             },
           },
         },
-      };
+    };
+
+    useEffect(() => {
+        if (user === ''){
+            navigate('/');
+            if (localStorage.getItem('MyWalletUser') === null) {
+                alert ('Por favor, faça o login novamente')
+            }
+        }
+    },[])
+
+    useEffect(() => {
+        if (registerType !== 'entrada' && registerType !== 'saída'){
+            navigate('/historico');
+        }
+    },[])
 
     function handlePathname(pathname){
         let arr = pathname.split('/');
@@ -35,40 +52,37 @@ export default function Register(){
         return [arr[1], arr[2]]
     }
 
-
+    function handleChange(event, value, maskedValue) {
+        event.preventDefault();
+        setNewRegister({ ...newRegister, value })
+    };
 
     async function handleNewRegister(e) {
 
         e.preventDefault();
 
-/*         if(newUser.password.length < 6){
-            alert('Por favor insira uma senha com 6 caracteres ou mais');
-            setNewUser({...newUser, password:'', passwordConfirmation:''});
+        if(newRegister.value === 0){
+            alert('Por favor insira um valor para o registro');
             return;
         }
 
-        if(newUser.password !== newUser.passwordConfirmation){
-            alert('Por favor verifique a confirmação da senha');
-            setNewUser({...newUser, passwordConfirmation:''});
-            return;
-        } */
-
         setLoading(true);
 
-        await setTimeout(() => setLoading(false), 2000)
+        newRegister.userId = user.id;
+        if (registerType === 'entrada') {
+            newRegister.type = 'positive';
+        } else {
+            newRegister.type = 'negative';
+        }
 
-/*         try {
-            await postNewUser(newUser);
-            alert('Usuário cadastrado com sucesso!');
-            navigate('/');
+        try {
+            await postNewRegister(newRegister, config);
+            navigate('/historico');
         } catch (error) {
-            if (error.response.status === 409){
-                alert ('Email já cadastrado!')
-            } else {
-                alert (`Vish... Erro ${error.response.status}: ${error.response.data}!`)
-            }
-            setLoading(false);
-        } */
+            alert (`Vish... Erro ${error.response.status}: ${error.response.data}!`)
+        }
+
+        setLoading(false);
     }
 
 
@@ -81,14 +95,14 @@ export default function Register(){
 
 
             <StyledForm onSubmit={handleNewRegister}>
-                <input
-                    type='number'
-                    step='.01'
-                    value={newRegister.value}
-                    onChange={e => setNewRegister({ ...newRegister, value: e.target.value })}
-                    placeholder='Valor'
+                <IntlCurrencyInput
+                    currency="BRL"
+                    value={Number(newRegister.value)}
+                    config={currencyConfig}
+                    onChange={handleChange} 
                     required
                     disabled={loading}
+                    max={999999.99}
                 />
                 <input
                     type='text'
