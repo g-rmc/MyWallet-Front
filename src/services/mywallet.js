@@ -22,4 +22,9 @@ function postNewRegister(newRegister, config){
     return promise;
 }
 
-export { postLogin, postNewUser, getRegister, postNewRegister }
+function deleteRegister(id, config){
+    const promise = axios.delete(`${baseURL}/register/${id}`, config);
+    return promise;
+}
+
+export { postLogin, postNewUser, getRegister, postNewRegister, deleteRegister }

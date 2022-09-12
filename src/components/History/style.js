@@ -107,14 +107,28 @@ const StyledText = styled.p`
         if(props.type === 'positive') {
             return `
                 color: #03AC00;
+                margin-right: 12px;
             `;
-        } else if ( props.type === 'negative'){
+        } else if (props.type === 'negative'){
             return `
                 color: #C70000;
+                margin-right: 12px;
             `
-        } else if ( props.type === 'date'){
+        } else if (props.type === 'date'){
             return `
                 color: #C6C6C6;
+            `
+        } else if (props.type === 'delete'){
+            return `
+                color: #C6C6C6;
+                cursor: pointer;
+                &:hover {
+                    filter: brightness(70%);
+                }
+
+                &:active {
+                    transform: translateY(2px);
+                }
             `
         } else {
             return `

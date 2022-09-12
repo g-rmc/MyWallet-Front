@@ -7,13 +7,14 @@ import UserContext from "../../contexts/UserContext";
 
 import { AiOutlineLogout, AiOutlinePlusCircle, AiOutlineMinusCircle} from 'react-icons/ai';
 import { Container, Head, Body, StyledRegister, StyledText, StyledList, StyledTotal, Footer } from "./style";
-import { getRegister } from '../../services/mywallet';
+import { getRegister, deleteRegister } from '../../services/mywallet';
 
 export default function History(){
 
     const { user, setUser, config } = useContext(UserContext);
     const [ registerHistory, setRegisterHistory ] = useState([]);
     const [ totalRegister, setTotalRegister ] = useState(0);
+    const [ deleted, setDeleted ] = useState(false);
     const navigate = useNavigate();
     let userName;
 
@@ -37,7 +38,7 @@ export default function History(){
             }
         }
         getHistory();
-    },[])
+    },[deleted])
 
     if (user.name) {
         userName = user.name.split(' ')[0];
@@ -50,6 +51,17 @@ export default function History(){
             localStorage.removeItem('MyWalletUser');
             setUser('');
             navigate('/');
+        }
+    }
+
+    async function handleDelete (id) {
+        if (window.confirm('Você realmente deseja deletar esse registro')){
+            try {
+                await deleteRegister(id, config);
+                setDeleted(!deleted);
+            } catch (error) {
+                alert (`Vish... Erro ${error.response.status}: ${error.response.data}!`);
+            }
         }
     }
 
@@ -74,6 +86,7 @@ export default function History(){
                 <StyledText type={'date'}>{dayjs(register.date).format('DD/MM')}</StyledText>
                 <StyledText type={'name'}>{register.name}</StyledText>
                 <StyledText type={register.type}>{register.value}</StyledText>
+                <StyledText type={'delete'} onClick={() => handleDelete(register._id)}>x</StyledText>
             </StyledRegister>
         )
     }
