@@ -11,8 +11,8 @@ export default function AddRegister(){
 
     const { user, config } = useContext(UserContext);
     const { pathname } = useLocation();
-    const [ registerOperation, registerType] = handlePathname(pathname);
-    const [ newRegister, setNewRegister ] = useState({userId: '', type:'', name:'', value:0});
+    const [ registerOperation, registerType, registerId] = handlePathname(pathname);
+    const [ editedRegister, setEditedRegister ] = useState({name:'', value:0});
     const [ loading, setLoading ] = useState(false);
     const navigate = useNavigate();
     
@@ -46,49 +46,41 @@ export default function AddRegister(){
     },[])
 
     useEffect(() => {
-        async function getRegister(){
-            try {
-                const register = await getRegisterById(config);
-                console.log(register)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getRegister();
+        const promise = getRegisterById(registerId, config);
+
+        promise.then((resp) => {
+                setEditedRegister({name: resp.data.name, value: resp.data.value});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     },[])
 
     function handlePathname(pathname){
         let arr = pathname.split('/');
         arr[1] = arr[1][0].toUpperCase() + arr[1].slice(1);
         arr[2] = arr[2].replace('i','í');
-        return [arr[1], arr[2]]
+        return [arr[1], arr[2], arr[3]]
     }
 
     function handleChange(event, value, maskedValue) {
         event.preventDefault();
-        setNewRegister({ ...newRegister, value })
+        setEditedRegister({ ...editedRegister, value });
     };
 
-    async function handleNewRegister(e) {
+    async function handleEditedRegister(e) {
 
         e.preventDefault();
 
-        if(newRegister.value === 0){
+        if(editRegisterById.value === 0){
             alert('Por favor insira um valor para o registro');
             return;
         }
 
         setLoading(true);
 
-        newRegister.userId = user.id;
-        if (registerType === 'entrada') {
-            newRegister.type = 'positive';
-        } else {
-            newRegister.type = 'negative';
-        }
-
         try {
-            await postNewRegister(newRegister, config);
+            await editRegisterById(registerId, editedRegister, config);
             navigate('/historico');
         } catch (error) {
             alert (`Vish... Erro ${error.response.status}: ${error.response.data}!`)
@@ -96,7 +88,6 @@ export default function AddRegister(){
 
         setLoading(false);
     }
-
 
     return (
         <Container>
@@ -106,10 +97,10 @@ export default function AddRegister(){
             </Head>
 
 
-            <StyledForm onSubmit={handleNewRegister}>
+            <StyledForm onSubmit={handleEditedRegister}>
                 <IntlCurrencyInput
                     currency="BRL"
-                    value={Number(newRegister.value)}
+                    value={Number(editedRegister.value)}
                     config={currencyConfig}
                     onChange={handleChange} 
                     required
@@ -118,8 +109,8 @@ export default function AddRegister(){
                 />
                 <input
                     type='text'
-                    value={newRegister.name}
-                    onChange={e => setNewRegister({ ...newRegister, name: e.target.value })}
+                    value={editedRegister.name}
+                    onChange={e => setEditedRegister({ ...editedRegister, name: e.target.value })}
                     placeholder='Descrição'
                     required
                     disabled={loading}

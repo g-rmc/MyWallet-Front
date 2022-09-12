@@ -30,8 +30,7 @@ export default function History(){
     useEffect(() => {
         const promise = getRegister(config);
 
-        promise
-            .then((resp) => {
+        promise.then((resp) => {
                 setRegisterHistory(resp.data);
                 calculateTotal(resp.data);
             })
