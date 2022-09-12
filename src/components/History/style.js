@@ -125,16 +125,16 @@ const StyledText = styled.p`
                 &:hover {
                     filter: brightness(70%);
                 }
-
-                &:active {
-                    transform: translateY(2px);
-                }
             `
         } else {
             return `
                 width: 100%;
                 color: #000000;
                 padding: 0 12px;
+                cursor: pointer;
+                &:hover {
+                    font-weight: 600;
+                }
             `
         }
     }}

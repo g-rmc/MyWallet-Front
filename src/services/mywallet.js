@@ -27,4 +27,14 @@ function deleteRegister(id, config){
     return promise;
 }
 
-export { postLogin, postNewUser, getRegister, postNewRegister, deleteRegister }
+function getRegisterById(id, config){
+    const promise = axios.get(`${baseURL}/register/${id}`, config);
+    return promise;
+}
+
+function editRegisterById(id, editedRegister, config){
+    const promise = axios.put(`${baseURL}/register/${id}`, editedRegister, config);
+    return promise;
+}
+
+export { postLogin, postNewUser, getRegister, postNewRegister, deleteRegister, getRegisterById, editRegisterById }

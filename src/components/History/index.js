@@ -28,17 +28,17 @@ export default function History(){
     },[])
 
     useEffect(() => {
-        async function getHistory(){
-            try {
-                const register = await getRegister(config);
-                setRegisterHistory(register.data);
-                calculateTotal(register.data);
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getHistory();
-    },[deleted])
+        const promise = getRegister(config);
+
+        promise
+            .then((resp) => {
+                setRegisterHistory(resp.data);
+                calculateTotal(resp.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    },[deleted]);
 
     if (user.name) {
         userName = user.name.split(' ')[0];
@@ -81,10 +81,19 @@ export default function History(){
     }
 
     function Register({register}) {
+
+        let translatedType;
+
+        if (register.type === 'positive') {
+            translatedType = 'entrada'
+        } else if (register.type === 'negative') {
+            translatedType = 'saida'
+        };
+
         return (
             <StyledRegister>
                 <StyledText type={'date'}>{dayjs(register.date).format('DD/MM')}</StyledText>
-                <StyledText type={'name'}>{register.name}</StyledText>
+                <StyledText type={'name'} onClick={() => navigate(`/editar/${translatedType}/${register._id}`)}>{register.name}</StyledText>
                 <StyledText type={register.type}>{register.value}</StyledText>
                 <StyledText type={'delete'} onClick={() => handleDelete(register._id)}>x</StyledText>
             </StyledRegister>
@@ -109,7 +118,7 @@ export default function History(){
                             <h1>SALDO</h1>
                             {totalRegister >= 0 ? 
                                 <h2>{totalRegister}</h2> :
-                                <h3>{Math.abs(totalRegister)}</h3>
+                                <h3>{Math.abs(totalRegister).toFixed(2)}</h3>
                             }
                             
                         </StyledTotal>
