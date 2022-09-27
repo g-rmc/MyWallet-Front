@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:5000';
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
 function postLogin (login){
     const promise = axios.post(`${baseURL}/auth/sign-in`, login);

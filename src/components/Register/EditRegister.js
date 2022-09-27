@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import IntlCurrencyInput from "react-intl-currency-input";
 
 import UserContext from "../../contexts/UserContext";
-import { postNewRegister, getRegisterById, editRegisterById } from "../../services/mywallet";
+import { getRegisterById, editRegisterById } from "../../services/mywallet";
 import { Container, Head, StyledForm, StyledLink, Loading } from "./style";
 
 export default function AddRegister(){
