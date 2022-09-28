@@ -31,6 +31,7 @@ export default function History(){
         const promise = getRegister(config);
 
         promise.then((resp) => {
+                resp.data.map(transaction => transaction.value = transaction.value/100);
                 setRegisterHistory(resp.data);
                 calculateTotal(resp.data);
             })
@@ -43,6 +44,12 @@ export default function History(){
         userName = user.name.split(' ')[0];
     } else {
         userName = "@"
+    }
+
+    function moneyMask (value) {
+        value = Math.abs(value).toString();
+        const result = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2}).format(Number(value));
+        return 'R$ ' + result
     }
 
     function confirmLogout () {
@@ -93,7 +100,7 @@ export default function History(){
             <StyledRegister>
                 <StyledText type={'date'}>{dayjs(register.date).format('DD/MM')}</StyledText>
                 <StyledText type={'name'} onClick={() => navigate(`/editar/${translatedType}/${register._id}`)}>{register.name}</StyledText>
-                <StyledText type={register.type}>{register.value}</StyledText>
+                <StyledText type={register.type}>{moneyMask(register.value)}</StyledText>
                 <StyledText type={'delete'} onClick={() => handleDelete(register._id)}>x</StyledText>
             </StyledRegister>
         )
@@ -116,8 +123,8 @@ export default function History(){
                         <StyledTotal>
                             <h1>SALDO</h1>
                             {totalRegister >= 0 ? 
-                                <h2>{totalRegister}</h2> :
-                                <h3>{Math.abs(totalRegister).toFixed(2)}</h3>
+                                <h2>{moneyMask(totalRegister)}</h2> :
+                                <h3>{moneyMask(totalRegister)}</h3>
                             }
                             
                         </StyledTotal>

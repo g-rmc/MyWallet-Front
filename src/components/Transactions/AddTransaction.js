@@ -52,7 +52,7 @@ export default function AddTransaction(){
         return [arr[1], arr[2]]
     }
 
-    function handleChange(event, value, maskedValue) {
+    function handleChange(event, value) {
         event.preventDefault();
         setNewRegister({ ...newRegister, value })
     };
@@ -76,7 +76,7 @@ export default function AddTransaction(){
         }
 
         try {
-            await postNewRegister(newRegister, config);
+            await postNewRegister({...newRegister, value: newRegister.value * 100}, config);
             navigate('/historico');
         } catch (error) {
             alert (`Vish... Erro ${error.response.status}: ${error.response.data}!`)

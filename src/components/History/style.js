@@ -102,6 +102,7 @@ const StyledRegister = styled.div`
 const StyledText = styled.p`
     font-weight: 400;
     font-size: 16px;
+    white-space: nowrap;
 
     ${props => {
         if(props.type === 'positive') {
