@@ -13,7 +13,7 @@ export default function EditTransaction(){
     const { pathname } = useLocation();
     const [ registerOperation, registerType, registerId] = handlePathname(pathname);
     const [ editedRegister, setEditedRegister ] = useState({name:'', value:0});
-    const [ loading, setLoading ] = useState(false);
+    const [ loading, setLoading ] = useState(true);
     const navigate = useNavigate();
     
     const currencyConfig = {
@@ -46,15 +46,17 @@ export default function EditTransaction(){
     },[])
 
     useEffect(() => {
+        
         const promise = getRegisterById(registerId, config);
 
         promise.then((resp) => {
-                setEditedRegister({name: resp.data.name, value: resp.data.value});
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    },[])
+            setEditedRegister({name: resp.data.name, value: resp.data.value/100});
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    },[]);
 
     function handlePathname(pathname){
         let arr = pathname.split('/');
@@ -63,7 +65,7 @@ export default function EditTransaction(){
         return [arr[1], arr[2], arr[3]]
     }
 
-    function handleChange(event, value, maskedValue) {
+    function handleChange(event, value) {
         event.preventDefault();
         setEditedRegister({ ...editedRegister, value });
     };
@@ -72,7 +74,7 @@ export default function EditTransaction(){
 
         e.preventDefault();
 
-        if(editRegisterById.value === 0){
+        if(editedRegister.value === 0){
             alert('Por favor insira um valor para o registro');
             return;
         }
@@ -80,7 +82,7 @@ export default function EditTransaction(){
         setLoading(true);
 
         try {
-            await editRegisterById(registerId, editedRegister, config);
+            await editRegisterById(registerId, {...editedRegister, value: editedRegister.value * 100}, config);
             navigate('/historico');
         } catch (error) {
             alert (`Vish... Erro ${error.response.status}: ${error.response.data}!`)
