@@ -9,8 +9,8 @@ import UserContext from '../contexts/UserContext';
 import SignIn from './Start/SignIn';
 import SignUp from './Start/SignUp';
 import History from './History';
-import AddTransaction from './Register/AddTransaction';
-import EditTransaction from './Register/EditTransaction';
+import AddTransaction from './Transactions/AddTransaction';
+import EditTransaction from './Transactions/EditTransaction';
 
 export default function App() {
 

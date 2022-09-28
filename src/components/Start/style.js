@@ -82,6 +82,29 @@ const StyledLink = styled(Link)`
     }
 `
 
+const StyledValidationBox = styled.div`
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  h2 {
+    cursor: pointer;
+    font-size: 25px;
+    margin-top: 5px;
+    text-decoration: underline;
+    &:hover{
+      filter:brightness(0.6);
+    }
+  }
+  h3 {
+    font-weight: 500;
+    font-size: 15px;
+    margin-top: 8px;
+  }
+`
+
 function Loading () {
     return (
         <FallingLines
@@ -95,5 +118,6 @@ export {
     Container,
     StyledForm,
     StyledLink,
+    StyledValidationBox,
     Loading,
 }
