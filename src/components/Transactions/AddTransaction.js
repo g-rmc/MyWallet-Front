@@ -7,7 +7,7 @@ import UserContext from "../../contexts/UserContext";
 import { postNewRegister } from "../../services/mywallet";
 import { Container, Head, StyledForm, StyledLink, Loading } from "./style";
 
-export default function AddRegister(){
+export default function AddTransaction(){
 
     const { user, config } = useContext(UserContext);
     const { pathname } = useLocation();

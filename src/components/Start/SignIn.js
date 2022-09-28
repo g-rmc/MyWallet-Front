@@ -1,17 +1,21 @@
 import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai';
 
 import UserContext from "../../contexts/UserContext";
 import { postLogin } from "../../services/mywallet";
-import { Container, StyledForm, StyledLink, Loading } from "./style";
+import { Container, StyledForm, StyledLink, StyledValidationBox, Loading } from "./style";
 
 export default function SignIn(){
 
+    const navigate = useNavigate();
+
     const [login, setLogin] = useState({email:'', password:''});
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
     const { setUser } = useContext(UserContext);
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (localStorage.getItem('MyWalletUser') !== null) {
@@ -56,13 +60,24 @@ export default function SignIn(){
                     disabled={loading}
                 />
                 <input
-                    type='password'
+                    type={showPassword? 'text' : 'password'}
                     value={login.password}
                     onChange={e => setLogin({...login, password:e.target.value})}
                     placeholder='Senha'
                     required
                     disabled={loading}
                 />
+
+                {login.password.length === 0?
+                <></> :
+                <StyledValidationBox>
+                    {showPassword?
+                    <h2 onClick={() => setShowPassword(false)}><AiOutlineEye/></h2> :
+                    <h2 onClick={() => setShowPassword(true)}><AiOutlineEyeInvisible/></h2>
+                    }
+                </StyledValidationBox>
+                }
+
                 <button type='submit' disabled={loading}>
                     {loading === false ? 'Entrar' : <Loading/>}
                 </button>
