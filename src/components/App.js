@@ -9,8 +9,8 @@ import UserContext from '../contexts/UserContext';
 import SignIn from './Start/SignIn';
 import SignUp from './Start/SignUp';
 import History from './History';
-import AddRegister from './Register/AddRegister';
-import EditRegister from './Register/EditRegister';
+import AddTransaction from './Register/AddTransaction';
+import EditTransaction from './Register/EditTransaction';
 
 export default function App() {
 
@@ -34,8 +34,8 @@ export default function App() {
               <Route path='/' element={<SignIn/>}/>
               <Route path='/cadastro' element={<SignUp/>}/>
               <Route path='/historico' element={<History/>}/>
-              <Route path='/adicionar/:registerType' element={<AddRegister/>}/>
-              <Route path='/editar/:registerType/:registerId' element={<EditRegister/>}/>
+              <Route path='/adicionar/:registerType' element={<AddTransaction/>}/>
+              <Route path='/editar/:registerType/:registerId' element={<EditTransaction/>}/>
 
             </Routes>
           </BrowserRouter>
