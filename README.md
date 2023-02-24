@@ -1,6 +1,6 @@
 # Access MyWallet app
 
-Deploy available at [MyWallet App](https://driven-013-my-wallet.vercel.app/) (pt-br)
+Deploy available at [MyWallet App](https://mywallet-weld.vercel.app/) (pt-br)
 
 ## Available Scripts
 
